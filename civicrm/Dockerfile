@@ -1,4 +1,4 @@
-FROM php:7.1-apache-jessie
+FROM php:7.1-apache-stretch
 
 # Install apt packages
 #
@@ -41,6 +41,7 @@ RUN curl -sL https://deb.nodesource.com/setup_9.x | bash \
   unzip \
   zip \
   zlib1g-dev \
+  vim \
   && rm -r /var/lib/apt/lists/*
 
 # Install php extensions (curl, json, mbstring, openssl, posix, phar

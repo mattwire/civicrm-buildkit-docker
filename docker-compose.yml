@@ -3,11 +3,16 @@ version: '3.4'
 services:
 
   civicrm:
-    image: michaelmcandrew/civicrm-buildkit
+    build:
+      context: civicrm
+      args:
+        BUILDKIT_UID: 1002
+        # BUILDKIT_GID: 1001 # By default, this will be the same as the UID
     hostname: civicrm
     environment:
       TERM: xterm-color
       APACHE_RUN_USER: buildkit
+      XDEBUG_CONFIG: "remote_host=172.17.0.1"
     links:
       - mysql
     ports:
@@ -26,8 +31,11 @@ services:
 
   mysql:
     image: mysql:5.7
+    ports:
+      - "33060:3306"
     environment:
       MYSQL_ROOT_PASSWORD: buildkit
+      MYSQL_ROOT_HOST: "%"
     volumes:
       - mysql:/var/lib/mysql
     restart: always
